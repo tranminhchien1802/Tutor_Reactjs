@@ -1,0 +1,18 @@
+.navbar-nav {
+  font-size: 20px;
+  line-height: 1.8;
+  font-weight: 400;
+}
+.navbar__item {
+  margin-left: 15px;
+}
+.cta {
+  border-radius: 30px;
+  border: 1px solid #167ce9;
+  background: #167ce9;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.active {
+  color: #167ce9 !important;
+}

@@ -1,0 +1,19 @@
+.btn {
+  border-radius: 30px;
+  margin: 10px;
+}
+.ftco-search-course {
+  margin-top: -200px !important;
+}
+.slick-dots li button:before {
+  color: #696666; /* Màu của dot không được chọn */
+}
+
+.slick-dots li.slick-active button:before {
+  color: #000; /* Màu của dot được chọn */
+}
+.statics {
+  border: 1px solid #bd6d6d; /* Đường viền mỏng màu xám nhạt */
+  border-radius: 5px; /* Bo góc nhẹ (tùy chọn) */
+  padding: 10px; /* Thêm khoảng cách bên trong (tùy chọn) */
+}
