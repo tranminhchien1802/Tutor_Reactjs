@@ -38,8 +38,7 @@ function Contact() {
             <div className="w-100" />
             <div className="col-md-6">
               <p>
-                <span>Address:</span> Trường đại học Khoa học Tự nhiên, Đại học
-                Quốc gia Tp.HCM
+                <span>Address:</span> 1 Võ Văn Ngân, Phường Linh Chiểu, TP. Thủ Đức, TP. HCM
               </p>
             </div>
             <div className="col-md-3">

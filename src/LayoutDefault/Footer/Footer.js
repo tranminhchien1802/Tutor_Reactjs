@@ -52,8 +52,8 @@ function Footer() {
               <h2 className="footer__h2--color">Văn phòng</h2>
               <div className="mt-3">
                 <p>
-                  <i className="fa-solid fa-map-location-dot mr-2"></i> Đông
-                  Hòa, Dĩ An, Bình Dương
+                  <i className="fa-solid fa-map-location-dot mr-2"></i> 1 Võ
+                  Văn Ngân, Phường Linh Chiểu, TP. Thủ Đức, TP. HCM
                 </p>
               </div>
             </div>
