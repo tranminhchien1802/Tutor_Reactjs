@@ -81,7 +81,7 @@ function Signup() {
         Swal.fire("Thành công", response.message, "success");
         navigate("/login"); // Navigate to the login page after successful registration
       } else {
-        swal(
+        Swal.fire(
           "Lỗi",
           response.message || "Thông tin đăng ký không hợp lệ",
           "error"
