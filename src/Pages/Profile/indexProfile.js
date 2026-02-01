@@ -1,7 +1,7 @@
 import "../../Style/user-profile.scss";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 import {
   updatePassword,
   getProfile,

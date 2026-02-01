@@ -5,7 +5,7 @@ import { getCourseDetail } from "../../Services/courseService";
 import { registerCourse } from "../../Services/tutorService";
 import { getCookie } from "../../Helpers/cookie";
 import { parseJwt } from "../../Helpers/JWT";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 const randomImage = images[Math.floor(Math.random() * images.length)];
 function CourseDetail() {
   const token = getCookie("token");
@@ -33,11 +33,11 @@ function CourseDetail() {
       const courseData = await registerCourse(course);
       //console.log(courseData);
       if (courseData) {
-        swal("Đăng ký nhận lớp thành công", {
+        Swal.fire("Đăng ký nhận lớp thành công", {
           icon: "success",
         });
       } else {
-        swal("Đăng ký nhận lớp thất bại", {
+        Swal.fire("Đăng ký nhận lớp thất bại", {
           icon: "error",
         });
       }
@@ -99,7 +99,7 @@ function CourseDetail() {
                           if (role === "tutor") {
                             handleClick();
                           } else {
-                            swal("Bạn không thể đăng ký nhận lớp", {
+                            Swal.fire("Bạn không thể đăng ký nhận lớp", {
                               icon: "error",
                             });
                           }

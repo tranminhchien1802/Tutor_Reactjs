@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../Style/signup.css";
 import { Register } from "../../Services/userService";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 function Signup() {
   const navigate = useNavigate();
   const [role, setRole] = useState("");

@@ -6,7 +6,7 @@ import { Login } from "../../Services/userService";
 import { setCookie } from "../../Helpers/cookie";
 import { useDispatch } from "react-redux";
 import { checkLogin } from "../../Action/login";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 function Signin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

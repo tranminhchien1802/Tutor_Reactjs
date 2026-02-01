@@ -6,7 +6,7 @@ import {
   searchTutor,
   filterTutor,
 } from "../../Services/tutorService";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 import { getCookie } from "../../Helpers/cookie";
 
 function Tutors() {

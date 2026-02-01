@@ -4,7 +4,7 @@ import "../../Style/tutor_detail.scss";
 import { getReview } from "../../Services/tutorService";
 import { getCookie } from "../../Helpers/cookie";
 import { parseJwt } from "../../Helpers/JWT";
-import swal from "@sweetalert/with-react";
+import Swal from "sweetalert2";
 
 import { getDetailTutor, postReview } from "../../Services/tutorService";
 

@@ -3,7 +3,7 @@ import { deleteAllCookies } from "../../Helpers/cookie";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { checkLogin } from "../../Action/login";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 function Logout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

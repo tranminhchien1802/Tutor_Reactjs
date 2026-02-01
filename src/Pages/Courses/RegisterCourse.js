@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { createCourse } from "../../Services/parentService";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 import { getCookie } from "../../Helpers/cookie";
 import { parseJwt } from "../../Helpers/JWT";
 const RegisterCourse = () => {
@@ -57,7 +57,7 @@ const RegisterCourse = () => {
       // setIsSubmitted(true);
       // console.log("Form Data Submitted:", formData);
       if (role === "Tutor") {
-        swal(
+        Swal.fire(
           "Đăng ký thất bại!",
           "Chỉ phụ huynh mới có thể đăng ký lớp học!",
           "error"
@@ -68,17 +68,17 @@ const RegisterCourse = () => {
           const response = await createCourse(formData);
           console.log(response);
           if (response) {
-            swal(
+            Swal.fire(
               "Đăng ký thành công!",
               "Chúng tôi sẽ liên hệ sớm nhất có thể!",
               "success"
             );
           } else {
-            swal("Đăng ký thất bại!", "Vui lòng thử lại sau!", "error");
+            Swal.fire("Đăng ký thất bại!", "Vui lòng thử lại sau!", "error");
           }
         } catch (error) {
           console.error("Error:", error);
-          swal("Đăng ký thất bại!", "Vui lòng thử lại sau!", "error");
+          Swal.fire("Đăng ký thất bại!", "Vui lòng thử lại sau!", "error");
         }
       }
     } else {

@@ -4,7 +4,7 @@ import "../../Style/course.scss";
 import images from "../../Component/imgCourse";
 import { getCourses, searchCourse } from "../../Services/courseService";
 import { getCookie } from "../../Helpers/cookie";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 function Courses() {
   const token = getCookie("token");
   const [courses, setCourses] = useState([]);
@@ -25,7 +25,7 @@ function Courses() {
         if (search.trim()) {
           const data = await searchCourse(search);
           if (data.courses.length === 0) {
-            swal("Không tìm thấy kết quả nào", "Vui lòng thử lại", "error");
+            Swal.fire("Không tìm thấy kết quả nào", "Vui lòng thử lại", "error");
           }
           setCourses(assignRandomImages(data.courses));
           setTotalCourses(data.totalPages);
