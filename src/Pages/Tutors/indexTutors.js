@@ -23,7 +23,7 @@ function Tutors() {
           const data = await searchTutor(search);
           //console.log(data);
           if (data.tutors.length === 0) {
-            swal("Không tìm thấy kết quả nào", "Vui lòng thử lại", "error");
+            Swal.fire("Không tìm thấy kết quả nào", "Vui lòng thử lại", "error");
           }
           setTutors(data.tutors);
           setTotalPage(data.pagination.totalPages);

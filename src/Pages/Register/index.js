@@ -78,7 +78,7 @@ function Signup() {
       const response = await Register(options);
       //console.log(response);
       if (response.message === "Đăng ký thành công.") {
-        swal("Thành công", response.message, "success");
+        Swal.fire("Thành công", response.message, "success");
         navigate("/login"); // Navigate to the login page after successful registration
       } else {
         swal(
@@ -94,9 +94,9 @@ function Signup() {
         error.response.data &&
         error.response.data.message
       ) {
-        swal("Lỗi", error.response.data.message, "error");
+        Swal.fire("Lỗi", error.response.data.message, "error");
       } else {
-        swal("Lỗi", "Đăng ký thất bại", "error");
+        Swal.fire("Lỗi", "Đăng ký thất bại", "error");
       }
     }
   };

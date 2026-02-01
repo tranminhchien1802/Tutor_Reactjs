@@ -23,13 +23,13 @@ function Signin() {
         setCookie("name", data.name, 1);
         setCookie("userId", data._id, 1); // Lưu userId
         dispatch(checkLogin(true));
-        swal("Thành công!", "Bạn đã đăng nhập thành công!", "success");
+        Swal.fire("Thành công!", "Bạn đã đăng nhập thành công!", "success");
         navigate("/");
       } else {
-        swal("Lỗi", "Thông tin đăng nhập không hợp lệ", "error");
+        Swal.fire("Lỗi", "Thông tin đăng nhập không hợp lệ", "error");
       }
     } catch (err) {
-      swal("Lỗi", "Thông tin đăng nhập không hợp lệ", "error");
+      Swal.fire("Lỗi", "Thông tin đăng nhập không hợp lệ", "error");
     }
   };
   return (

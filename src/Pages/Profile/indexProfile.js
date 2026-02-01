@@ -95,15 +95,15 @@ function Profile() {
     // console.log(newPassword);
     // console.log(confirmPassword);
     if (newPassword !== confirmPassword) {
-      swal("Lỗi", "Mật khẩu không khớp", "error");
+      Swal.fire("Lỗi", "Mật khẩu không khớp", "error");
     } else {
       const response = updatePassword(oldPassword, newPassword);
       //console.log(response);
       if (response) {
-        swal("Thành công", "Mật khẩu đã được thay đổi", "success");
+        Swal.fire("Thành công", "Mật khẩu đã được thay đổi", "success");
         navigate("/logout");
       } else {
-        swal("Lỗi", "Bạn không thể thay đổi mật khẩu", "error");
+        Swal.fire("Lỗi", "Bạn không thể thay đổi mật khẩu", "error");
       }
     }
   };

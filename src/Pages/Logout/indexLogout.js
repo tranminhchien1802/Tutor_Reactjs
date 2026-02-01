@@ -10,7 +10,7 @@ function Logout() {
   deleteAllCookies();
   useEffect(() => {
     dispatch(checkLogin(false));
-    swal("Thành công!", "Bạn đã đăng xuất thành công!", "success");
+    Swal.fire("Thành công!", "Bạn đã đăng xuất thành công!", "success");
     navigate("/login");
   }, []);
 

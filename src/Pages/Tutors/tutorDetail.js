@@ -69,7 +69,7 @@ function TutorDetail() {
 
   const handleSubmitReview = async () => {
     if (selectedRating === 0 || comment.trim() === "") {
-      swal("Error", "Please provide a rating and comment.", "error");
+      Swal.fire("Error", "Please provide a rating and comment.", "error");
       return;
     }
 
@@ -79,10 +79,10 @@ function TutorDetail() {
       setSelectedRating(0);
       setComment("");
       fetchReviews();
-      swal("Success", "Review submitted successfully.", "success");
+      Swal.fire("Success", "Review submitted successfully.", "success");
     } catch (error) {
       console.error(error);
-      swal("Error", "Failed to submit review.", "error");
+      Swal.fire("Error", "Failed to submit review.", "error");
     }
   };
 
@@ -199,7 +199,7 @@ function TutorDetail() {
                 if (role === "parent") {
                   setShowModal(true);
                 } else {
-                  swal(
+                  Swal.fire(
                     "Error",
                     "Chỉ phụ huynh mới được đánh giá gia sư.",
                     "error"
