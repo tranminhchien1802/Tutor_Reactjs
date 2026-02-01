@@ -29,18 +29,20 @@ const MapComponent = () => {
     setSelectedMarker(position);
   }, []);
 
-  const onLoad = React.useCallback(function callback(map) {
+  const onMarkerLoad = React.useCallback((marker) => {
     // Không cần thiết phải làm gì ở đây
   }, []);
 
   return (
-    <LoadScript googleMapsApiKey={apiKey}>
+    <LoadScript
+      googleMapsApiKey={apiKey}
+      loadingElement={<div style={{ height: "100%" }}>Đang tải bản đồ...</div>}
+    >
       <div style={{ width: "100%", height: "400px" }}>
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
           zoom={16}
-          onLoad={onLoad}
           options={{
             streetViewControl: false,
             mapTypeControl: false,
@@ -51,9 +53,10 @@ const MapComponent = () => {
           <Marker
             position={center}
             onClick={() => onClickMarker(center)}
+            onLoad={onMarkerLoad}
             icon={{
               url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
-              scaledSize: new window.google.maps.Size(40, 40),
+              scaledSize: { width: 40, height: 40 },
             }}
           />
 
