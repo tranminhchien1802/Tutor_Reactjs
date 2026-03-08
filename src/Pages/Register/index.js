@@ -76,16 +76,19 @@ function Signup() {
 
     try {
       const response = await Register(options);
-      //console.log(response);
       if (response.message === "Đăng ký thành công.") {
-        Swal.fire("Thành công", response.message, "success");
-        navigate("/login"); // Navigate to the login page after successful registration
+        Swal.fire({
+          title: "Thành công",
+          text: response.message,
+          icon: "success"
+        });
+        navigate("/login");
       } else {
-        Swal.fire(
-          "Lỗi",
-          response.message || "Thông tin đăng ký không hợp lệ",
-          "error"
-        );
+        Swal.fire({
+          title: "Lỗi",
+          text: response.message || "Thông tin đăng ký không hợp lệ",
+          icon: "error"
+        });
       }
     } catch (error) {
       console.error("There was a problem with the signup operation:", error);
@@ -94,9 +97,17 @@ function Signup() {
         error.response.data &&
         error.response.data.message
       ) {
-        Swal.fire("Lỗi", error.response.data.message, "error");
+        Swal.fire({
+          title: "Lỗi",
+          text: error.response.data.message,
+          icon: "error"
+        });
       } else {
-        Swal.fire("Lỗi", "Đăng ký thất bại", "error");
+        Swal.fire({
+          title: "Lỗi",
+          text: "Đăng ký thất bại",
+          icon: "error"
+        });
       }
     }
   };

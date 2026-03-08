@@ -69,7 +69,11 @@ function TutorDetail() {
 
   const handleSubmitReview = async () => {
     if (selectedRating === 0 || comment.trim() === "") {
-      Swal.fire("Error", "Please provide a rating and comment.", "error");
+      Swal.fire({
+        title: "Lỗi",
+        text: "Please provide a rating and comment.",
+        icon: "error"
+      });
       return;
     }
 
@@ -79,10 +83,18 @@ function TutorDetail() {
       setSelectedRating(0);
       setComment("");
       fetchReviews();
-      Swal.fire("Success", "Review submitted successfully.", "success");
+      Swal.fire({
+        title: "Thành công",
+        text: "Review submitted successfully.",
+        icon: "success"
+      });
     } catch (error) {
       console.error(error);
-      Swal.fire("Error", "Failed to submit review.", "error");
+      Swal.fire({
+        title: "Lỗi",
+        text: "Failed to submit review.",
+        icon: "error"
+      });
     }
   };
 
@@ -199,11 +211,11 @@ function TutorDetail() {
                 if (role === "parent") {
                   setShowModal(true);
                 } else {
-                  Swal.fire(
-                    "Error",
-                    "Chỉ phụ huynh mới được đánh giá gia sư.",
-                    "error"
-                  );
+                  Swal.fire({
+                    title: "Lỗi",
+                    text: "Chỉ phụ huynh mới được đánh giá gia sư.",
+                    icon: "error"
+                  });
                 }
               }}
             >

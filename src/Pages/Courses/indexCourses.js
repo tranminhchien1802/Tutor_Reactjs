@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../../Style/course.scss";
-import images from "../../Component/imgCourse";
 import { getCourses, searchCourse } from "../../Services/courseService";
 import { getCookie } from "../../Helpers/cookie";
 import Swal from "sweetalert2";
+
+// Map image names to actual imports
+const courseImages = {
+  'course-1.jpg': require("../../images/course-1.jpg"),
+  'course-2.jpg': require("../../images/course-2.jpg"),
+  'course-3.jpg': require("../../images/course-3.jpg"),
+  'course-4.jpg': require("../../images/course-4.jpg"),
+  'course-5.jpg': require("../../images/course-5.jpg"),
+  'course-6.jpg': require("../../images/course-6.jpg"),
+};
+
 function Courses() {
   const token = getCookie("token");
   const [courses, setCourses] = useState([]);
@@ -13,10 +23,11 @@ function Courses() {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState("");
   const [filter, setFilter] = useState("");
-  const assignRandomImages = (courses) => {
+
+  const assignImages = (courses) => {
     return courses.map((course) => {
-      const randomImage = images[Math.floor(Math.random() * images.length)];
-      return { ...course, image: randomImage };
+      const image = courseImages[course.image] || courseImages['course-1.jpg'];
+      return { ...course, image };
     });
   };
   useEffect(() => {
@@ -25,21 +36,22 @@ function Courses() {
         if (search.trim()) {
           const data = await searchCourse(search);
           if (data.courses.length === 0) {
-            Swal.fire("Không tìm thấy kết quả nào", "Vui lòng thử lại", "error");
+            Swal.fire({
+              title: "Không tìm thấy kết quả",
+              text: "Vui lòng thử lại",
+              icon: "error"
+            });
           }
-          setCourses(assignRandomImages(data.courses));
+          setCourses(assignImages(data.courses));
           setTotalCourses(data.totalPages);
-          //console.log("Courses:", data.courses);
         } else if (filter.trim()) {
           const data = await searchCourse(filter);
-          setCourses(assignRandomImages(data.courses));
+          setCourses(assignImages(data.courses));
           setTotalCourses(data.totalPages);
-          //console.log("Courses:", data.courses);
         } else {
           const data = await getCourses(pageActive);
-          setCourses(assignRandomImages(data.courses));
+          setCourses(assignImages(data.courses));
           setTotalCourses(data.totalPages);
-          //console.log("Courses:", data.courses);
         }
       } catch (error) {
         console.error(

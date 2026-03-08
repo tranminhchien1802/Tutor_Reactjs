@@ -16,6 +16,7 @@ import Profile from "../Pages/Profile/indexProfile";
 import RequestClass from "../Pages/RequestClass/indexRequestClass";
 import ParentClass from "../Pages/ParentClass/indexParentClass";
 import PaymentPage from "../Pages/PaymentPage/indexPaymentPage";
+import TestPayment from "../Pages/PaymentPage/TestPayment";
 import ReceivedClass from "../Pages/ReceivedClass/indexReceivedClass"; // Corrected import
 
 export const routes = [
@@ -90,6 +91,10 @@ export const routes = [
       {
         path: "payment/:transactionId",
         element: <PaymentPage />,
+      },
+      {
+        path: "test-payment",
+        element: <TestPayment />,
       },
       {
         path: "received-classes", // Added route

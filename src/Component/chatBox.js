@@ -1,56 +1,71 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
 import "../Style/chatBox.scss";
-import { getCookie } from "../Helpers/cookie"; // Đảm bảo đường dẫn đúng
+import { getCookie } from "../Helpers/cookie";
 
 const ChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [socket, setSocket] = useState(null);
+  const [socketError, setSocketError] = useState(false);
 
-  const adminId = 109; // ID của admin (có thể thay đổi theo ứng dụng của bạn)
+  const adminId = 109;
 
-  // Kết nối socket khi component được mount
   useEffect(() => {
-    const token = getCookie("token"); // Lấy token từ cookie
-    console.log("Token:", token); // Kiểm tra token được lấy đúng
+    const token = getCookie("token");
+    console.log("Token:", token);
+    
     if (!token) {
-      console.error("No token found in cookies");
+      console.log("No token found - chat disabled");
       return;
     }
 
-    const newSocket = io("http://localhost:5000", {
-      auth: { token },
-      transports: ["websocket"],
-    });
+    // Try to connect to socket.io, but don't crash if it fails
+    try {
+      const io = require("socket.io-client").default;
+      const newSocket = io("http://localhost:5000", {
+        auth: { token },
+        transports: ["websocket", "polling"],
+        reconnection: true,
+        reconnectionAttempts: 3,
+        reconnectionDelay: 1000,
+      });
 
-    setSocket(newSocket);
+      newSocket.on("connect", () => {
+        console.log("Socket connected");
+        setSocketError(false);
+      });
 
-    // Lắng nghe sự kiện nhận tin nhắn mới từ server
-    newSocket.on("chat message", (newMessage) => {
-      if (newMessage) {
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
-      }
-    });
+      newSocket.on("connect_error", (error) => {
+        console.log("Socket connection failed - chat disabled:", error.message);
+        setSocketError(true);
+      });
 
-    // Lắng nghe sự kiện tải tin nhắn từ server
-    newSocket.on("load-messages", (loadedMessages) => {
-      if (Array.isArray(loadedMessages)) {
-        setMessages(loadedMessages);
-      } else {
-        console.error("Invalid message data:", loadedMessages);
-      }
-    });
+      newSocket.on("chat message", (newMessage) => {
+        if (newMessage) {
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        }
+      });
 
-    const userId = parseInt(getCookie("userId"), 10); // Lấy ID người dùng từ cookie
-    //console.log("user", userId);
-    const chatRoomId = [Math.min(userId, adminId), Math.max(userId, adminId)].join("-");
-    
-    // Gửi yêu cầu tải lại tin nhắn từ server khi kết nối socket
-    newSocket.emit("load-messages", { chatRoomId });
+      newSocket.on("load-messages", (loadedMessages) => {
+        if (Array.isArray(loadedMessages)) {
+          setMessages(loadedMessages);
+        }
+      });
 
-    return () => newSocket.close();
+      const userId = parseInt(getCookie("userId"), 10);
+      const chatRoomId = [Math.min(userId, adminId), Math.max(userId, adminId)].join("-");
+      newSocket.emit("load-messages", { chatRoomId });
+
+      setSocket(newSocket);
+
+      return () => {
+        if (newSocket) newSocket.close();
+      };
+    } catch (error) {
+      console.log("Socket.io not available - chat disabled");
+      setSocketError(true);
+    }
   }, []);
 
   const toggleChatBox = () => {

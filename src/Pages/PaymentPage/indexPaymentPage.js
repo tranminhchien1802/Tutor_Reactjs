@@ -14,7 +14,7 @@ const PaymentPage = () => {
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
-        console.log("Fetching transaction details...");
+        console.log("Fetching transaction details for ID:", transactionId);
         const response = await get(`transactions/${transactionId}`, true);
         console.log("Transaction fetched:", response);
 
@@ -25,7 +25,7 @@ const PaymentPage = () => {
         setPaymentStatus(response.transaction.status);
       } catch (error) {
         console.error("Error fetching transaction:", error);
-        setErrorMessage("Không thể tải thông tin giao dịch.");
+        setErrorMessage("Không thể tải thông tin giao dịch. Mã giao dịch không tồn tại!");
       } finally {
         setLoading(false);
       }

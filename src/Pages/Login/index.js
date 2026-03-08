@@ -14,22 +14,32 @@ function Signin() {
   const [password, setPassword] = useState("");
   const handleLogin = async (e) => {
     e.preventDefault();
-    // mai.nguyen@example.com
     try {
       const data = await Login(email, password);
-     // console.log('data',data)
-      if (data.length !== 0) {
+      if (data && data.token) {
         setCookie("token", data.token, 1);
         setCookie("name", data.name, 1);
-        setCookie("userId", data._id, 1); // Lưu userId
+        setCookie("userId", data._id, 1);
         dispatch(checkLogin(true));
-        Swal.fire("Thành công!", "Bạn đã đăng nhập thành công!", "success");
+        Swal.fire({
+          title: "Thành công!",
+          text: "Bạn đã đăng nhập thành công!",
+          icon: "success"
+        });
         navigate("/");
       } else {
-        Swal.fire("Lỗi", "Thông tin đăng nhập không hợp lệ", "error");
+        Swal.fire({
+          title: "Lỗi",
+          text: "Thông tin đăng nhập không hợp lệ",
+          icon: "error"
+        });
       }
     } catch (err) {
-      Swal.fire("Lỗi", "Thông tin đăng nhập không hợp lệ", "error");
+      Swal.fire({
+        title: "Lỗi",
+        text: "Thông tin đăng nhập không hợp lệ",
+        icon: "error"
+      });
     }
   };
   return (

@@ -91,19 +91,27 @@ function Profile() {
   if (error) return <p>{error}</p>;
   const handleUpdatePassword = (e) => {
     e.preventDefault();
-    // console.log(oldPassword);
-    // console.log(newPassword);
-    // console.log(confirmPassword);
     if (newPassword !== confirmPassword) {
-      Swal.fire("Lỗi", "Mật khẩu không khớp", "error");
+      Swal.fire({
+        title: "Lỗi",
+        text: "Mật khẩu không khớp",
+        icon: "error"
+      });
     } else {
       const response = updatePassword(oldPassword, newPassword);
-      //console.log(response);
       if (response) {
-        Swal.fire("Thành công", "Mật khẩu đã được thay đổi", "success");
+        Swal.fire({
+          title: "Thành công",
+          text: "Mật khẩu đã được thay đổi",
+          icon: "success"
+        });
         navigate("/logout");
       } else {
-        Swal.fire("Lỗi", "Bạn không thể thay đổi mật khẩu", "error");
+        Swal.fire({
+          title: "Lỗi",
+          text: "Bạn không thể thay đổi mật khẩu",
+          icon: "error"
+        });
       }
     }
   };

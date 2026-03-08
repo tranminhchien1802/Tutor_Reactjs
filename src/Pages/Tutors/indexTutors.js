@@ -21,9 +21,12 @@ function Tutors() {
       try {
         if (search.trim()) {
           const data = await searchTutor(search);
-          //console.log(data);
           if (data.tutors.length === 0) {
-            Swal.fire("Không tìm thấy kết quả nào", "Vui lòng thử lại", "error");
+            Swal.fire({
+              title: "Không tìm thấy kết quả",
+              text: "Vui lòng thử lại",
+              icon: "error"
+            });
           }
           setTutors(data.tutors);
           setTotalPage(data.pagination.totalPages);
@@ -33,7 +36,6 @@ function Tutors() {
           setTotalPage(data.pagination.totalPages);
         } else {
           const data = await getTutors(pageActive);
-          //console.log(data.data);
           setTutors(data.data);
           setTotalPage(data.pagination.totalPages);
         }
@@ -136,8 +138,10 @@ function Tutors() {
                           Chọn môn học
                         </option>
                         <option value="Tiếng Anh">Tiếng Anh</option>
-                        <option value="Toán học">Toán học</option>
-                        <option value="Lịch sử">Lịch sử</option>
+                        <option value="Toán">Toán</option>
+                        <option value="Ngữ văn">Ngữ văn</option>
+                        <option value="Lý">Lý</option>
+                        <option value="Hóa">Hóa</option>
                       </select>
                       <input
                         type="submit"

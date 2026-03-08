@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { createCourse } from "../../Services/parentService";
+import { post } from "../../Utils/request";
 import Swal from "sweetalert2";
 import { getCookie } from "../../Helpers/cookie";
 import { parseJwt } from "../../Helpers/JWT";
+
 const RegisterCourse = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     subject: "",
     grade: "",
@@ -20,8 +23,35 @@ const RegisterCourse = () => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
-  const token = getCookie("token");
-  const role = parseJwt(token).role;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const token = getCookie("token");
+    if (!token) {
+      Swal.fire({
+        title: "Vui lòng đăng nhập",
+        text: "Bạn cần đăng nhập để đăng ký lớp học",
+        icon: "warning"
+      }).then(() => {
+        navigate("/login");
+      });
+      return;
+    }
+
+    try {
+      const decoded = parseJwt(token);
+      setIsLoggedIn(true);
+      setUserRole(decoded.role);
+    } catch (error) {
+      console.error("Invalid token:", error);
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  if (!isLoggedIn) {
+    return <div className="loading-screen">Đang kiểm tra đăng nhập...</div>;
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -54,35 +84,67 @@ const RegisterCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // setIsSubmitted(true);
-      // console.log("Form Data Submitted:", formData);
-      if (role === "Tutor") {
-        Swal.fire(
-          "Đăng ký thất bại!",
-          "Chỉ phụ huynh mới có thể đăng ký lớp học!",
-          "error"
-        );
+      if (userRole === "tutor") {
+        Swal.fire({
+          title: "Đăng ký thất bại!",
+          text: "Chỉ phụ huynh mới có thể đăng ký lớp học!",
+          icon: "error"
+        });
         return;
-      } else {
-        try {
-          const response = await createCourse(formData);
-          console.log(response);
-          if (response) {
-            Swal.fire(
-              "Đăng ký thành công!",
-              "Chúng tôi sẽ liên hệ sớm nhất có thể!",
-              "success"
-            );
-          } else {
-            Swal.fire("Đăng ký thất bại!", "Vui lòng thử lại sau!", "error");
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          Swal.fire("Đăng ký thất bại!", "Vui lòng thử lại sau!", "error");
+      }
+      
+      try {
+        const response = await createCourse(formData);
+        console.log(response);
+        if (response && response.success) {
+          Swal.fire({
+            title: "Đăng ký thành công!",
+            text: "Chúng tôi sẽ liên hệ sớm nhất có thể!",
+            icon: "success",
+            showCancelButton: true,
+            confirmButtonText: "Thanh toán ngay",
+            cancelButtonText: "Để sau"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Create transaction and navigate to payment
+              createTransactionAndPay(response.course);
+            } else {
+              setIsSubmitted(true);
+            }
+          });
+        } else {
+          Swal.fire({
+            title: "Đăng ký thất bại!",
+            text: "Vui lòng thử lại sau!",
+            icon: "error"
+          });
         }
+      } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+          title: "Đăng ký thất bại!",
+          text: "Vui lòng thử lại sau!",
+          icon: "error"
+        });
       }
     } else {
       setIsSubmitted(false);
+    }
+  };
+
+  const createTransactionAndPay = async (course) => {
+    try {
+      const response = await post("transactions/create", {
+        amount: 500000,
+        paymentMethod: "QR_CODE",
+        courseId: course._id || course.id
+      }, true);
+
+      if (response.success) {
+        navigate(`/payment/${response.transaction.transactionId}`);
+      }
+    } catch (error) {
+      console.error("Error creating transaction:", error);
     }
   };
 

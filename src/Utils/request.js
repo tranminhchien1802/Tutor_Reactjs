@@ -1,6 +1,6 @@
 import { getCookie } from "../Helpers/cookie";
 
-const API_DOMAIN = "http://localhost:5000";
+const API_DOMAIN = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 // Helper function to build headers
 const buildHeaders = (includeAuth) => {
